@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["Notes 202302 Oaxaca"]
+            "args": ["JoplinTest"]
         }
     ]
 }
