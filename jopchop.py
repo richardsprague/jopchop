@@ -35,7 +35,7 @@ def save_note_to_file(note_title, note_body, note_id):
 
     resources = joplinexport.get_note_resources(note_id)
     for resource in resources['items']:
-        filename = resource['title'].replace('/', '-')
+        filename = resource['title'].replace('/', '-') if resource['title'] else resource['id']
         resource_filepath = os.path.join(save_path, filename)
         with open(resource_filepath, 'wb') as f:
             resource_data = joplinexport.download_resource(resource['id'])
@@ -71,6 +71,12 @@ def export_notebook(notebook):
         note_title, note_body = joplinexport.get_note_details(note['id'])
         save_note_to_file(note_title, note_body, note['id'])
 
+    # Recursively export sub-notebooks
+    sub_notebooks = joplinexport.get_sub_notebooks(notebook['id'])
+    if not sub_notebooks:  # This will be True if sub_notebooks is None or an empty list
+        return
+    for sub_notebook in sub_notebooks:
+        export_notebook(sub_notebook)
 
 
 def main(notebook_name):

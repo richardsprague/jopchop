@@ -20,6 +20,10 @@ def get_note_details(note_id):
     data = response.json()
     return data['title'], data['body']
 
+def get_sub_notebooks(parent_id):
+    all_folders = get_notebooks()
+    sub_notebooks = [folder for folder in all_folders if folder['parent_id'] == parent_id]
+    return sub_notebooks
 
 
 def get_notes_from_notebook(notebook_id):
