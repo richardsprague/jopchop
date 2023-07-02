@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run jopchop Task - Notes 2023Q2",
+            "name": "Run notes_script Task - Notes 2023Q2",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/jopchop.py",
+            "program": "${workspaceFolder}/notes_script.py",
             "args": ["Notes 2023Q2"],
             "console": "integratedTerminal"
         },
