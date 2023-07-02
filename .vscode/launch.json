@@ -2,12 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run jopchop Task",
+            "name": "Run jopchop Task - Notes 2023Q2",
             "type": "python",
             "request": "launch",
-            "preLaunchTask": "Run jopchop",
             "program": "${workspaceFolder}/jopchop.py",
             "args": ["Notes 2023Q2"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run jopchop Task - Joplin Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/jopchop.py",
+            "args": ["JoplinTest"],
             "console": "integratedTerminal"
         }
     ]

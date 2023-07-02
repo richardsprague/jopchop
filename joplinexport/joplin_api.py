@@ -1,12 +1,8 @@
 import os
 import requests
 import json
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-token = os.getenv("JOPLIN_TOKEN")
-port = 41184
+from . import token, port
 
 def get_notebooks():
     page = 1

@@ -1,0 +1,29 @@
+import os
+import unittest
+import shutil
+from joplinexport import get_save_path
+
+class TestJoplinExport(unittest.TestCase):
+    
+    def setUp(self):
+        self.notebook_name = "JoplinTest"
+        self.temp_dir = "test_downloads"
+        os.makedirs(self.temp_dir, exist_ok=True)
+        get_save_path(self.temp_dir)  # Assuming you have a variable in your joplinexport module that sets the download path
+        
+        # call your method to export the notebook files
+        notebook_handling.export_notebook(self.notebook_name)  # Assuming you have a function that exports the files of the given notebook
+
+    def tearDown(self):
+        # remove the test directory after the test
+        shutil.rmtree(self.temp_dir)
+
+    def test_files_count(self):
+        # count the number of .md and .png files
+        md_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".md")])
+        png_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".png")])
+        self.assertEqual(md_files, 3)
+        self.assertEqual(png_files, 1)
+
+if __name__ == '__main__':
+    unittest.main()
