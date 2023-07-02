@@ -9,10 +9,20 @@ token = os.getenv("JOPLIN_TOKEN")
 port = 41184
 
 def get_notebooks():
-    response = requests.get(f'http://localhost:{port}/folders?token={token}')
-    response.raise_for_status()
-    data = response.json()
-    return data['items'] if 'items' in data else []
+    page = 1
+    notebooks = []
+    while True:
+        response = requests.get(f'http://localhost:{port}/folders?token={token}&page={page}')
+        response.raise_for_status()
+        data = response.json()
+        if 'items' in data:
+            notebooks.extend(data['items'])
+        if 'has_more' in data and data['has_more']:
+            page += 1
+        else:
+            break
+    return notebooks
+
 
 def get_note_details(note_id):
     response = requests.get(f'http://localhost:{port}/notes/{note_id}?fields=body,title&token={token}')

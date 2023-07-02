@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run jopchop",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": ["jopchop.py", "Notes 2023Q2"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
