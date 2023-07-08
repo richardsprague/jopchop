@@ -1,13 +1,14 @@
+## this is a sample script intended to download a bunch of specific notes
+## python notes_script.py <notebook-name>
+## It will download as .md and then concatenate all the files into one big huge notes.qmd file
+## intended to be processed later with Quarto.
+
+
 import os
 import sys
 
 
 from joplinexport import get_save_path, notebook_handling, note_handling
-
-# Define the directory where you want to download the notes
-
-# resource_id_to_file_path_main = {}
-# note_id_to_title_main = {} # Initialize an empty dictionary outside save_note_to_file
 
 JOINED_FILENAME = "notes.qmd" # f"all_{datetime.now().strftime('%Y%m%d-%H%M%S')}.md"
 
@@ -37,11 +38,10 @@ def main(notebook_name):
     with open(output_filename, "w") as f:
         f.write(output)
     
-    note_handling.remove_md_files(save_path)
+    # note_handling.remove_md_files(save_path)
 
     print(f"Output written to file: {output_filename}")
-    notes_files = note_handling.md_files(save_path)
-    result = note_handling.concat_files(notes_files)
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: joplinexport
+Version: 0.2.2
+Summary: A package for handling Joplin notes and notebooks
+Home-page: https://github.com/richardsprague/joplinexport
+Author: Richard Sprague
+Author-email: sprague@personalscience.com
+Requires-Python: >=3.6

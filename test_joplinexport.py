@@ -1,7 +1,7 @@
 import os
 import unittest
 import shutil
-from joplinexport import get_save_path, notebook_handling
+from joplinexport import get_save_path, notebook_handling, note_handling
 
 class TestJoplinExport(unittest.TestCase):
     
@@ -23,7 +23,24 @@ class TestJoplinExport(unittest.TestCase):
         md_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".md")])
         png_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".png")])
         self.assertEqual(md_files, 4)
-        self.assertEqual(png_files, 1)
+        self.assertEqual(png_files, 2)
+    
+    def test_pandocable_filename(self):
+        # test the pandocable_filename function
+        result = note_handling.pandocable_filename("abc")
+        expected = "abc"
+        self.assertEqual(result, expected, f"Expected {expected}, but got {result}")
+
+        result = note_handling.pandocable_filename("hello, world")
+        expected = "hello, world"
+        self.assertEqual(result, expected, f"Expected {expected}, but got {result}")
+
+        result = note_handling.pandocable_filename("Daal: Lentils and Spinach")
+        expected = "Daal- Lentils and Spinach"
+        self.assertEqual(result, expected, f"Expected {expected}, but got {result}")
+
+
+
 
     def test_resource_link_replacement(self):
         download_path = self.temp_dir

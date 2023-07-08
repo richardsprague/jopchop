@@ -19,12 +19,26 @@ def get_notebooks():
             break
     return notebooks
 
-
 def get_note_details(note_id):
+    # Get the note title and body
     response = requests.get(f'http://localhost:{port}/notes/{note_id}?fields=body,title&token={token}')
     response.raise_for_status()
     data = response.json()
-    return data['title'], data['body']
+    title, body = data['title'], data['body']
+
+    # Get the tags for the note
+    response = requests.get(f'http://localhost:{port}/notes/{note_id}/tags?token={token}')
+    response.raise_for_status()
+    tags_data = response.json()
+
+    # Check if tags exist for the note
+    if tags_data and 'items' in tags_data and isinstance(tags_data['items'], list):
+        tags = [tag['title'] for tag in tags_data['items']]
+    else:
+        tags = []
+
+    return title, body, tags
+
 
 def get_sub_notebooks(parent_id):
     all_folders = get_notebooks()

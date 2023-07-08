@@ -30,7 +30,7 @@ def collect_all_resources_and_note_ids(notebook, parent_path):
 
     return resources, note_ids
 
-def export_notebook(notebook_name):
+def export_notebook(notebook_name, frontmatter=False):
 
 
     notebooks = get_notebooks()
@@ -39,25 +39,25 @@ def export_notebook(notebook_name):
     for notebook in notebooks:
             if notebook['title'] == notebook_name:
                 resources_dict, note_ids_dict = collect_all_resources_and_note_ids(notebook, get_save_path())
-                export_notebook_args(notebook, get_save_path(), resources_dict, note_ids_dict)
+                export_notebook_args(notebook, get_save_path(), resources_dict, note_ids_dict, frontmatter)
                 break
     else:
         print(f"No notebook found with the name {notebook_name}")
-    export_notebook_args(notebook, full_path, resources_dict, note_ids_dict)
+    
 
 
 
-def export_notebook_args(notebook, full_path, resources_dict, note_ids_dict):
+def export_notebook_args(notebook, full_path, resources_dict, note_ids_dict, frontmatter=False):
     notes = get_notes_from_notebook(notebook['id'])
 
     for note in notes:
-        note_title, note_body = get_note_details(note['id'])
-        save_note_to_file(note_title, note_body, note['id'], full_path, resources_dict, note_ids_dict)
+        note_title, note_body, note_tags = get_note_details(note['id'])
+        save_note_to_file(note_title, note_body, note_tags, note['id'], full_path, resources_dict, note_ids_dict, frontmatter)
 
     # Recursively export sub-notebooks
     sub_notebooks = get_sub_notebooks(notebook['id'])
     if not sub_notebooks:  # This will be True if sub_notebooks is None or an empty list
         return
     for sub_notebook in sub_notebooks:
-        export_notebook_args(sub_notebook, full_path, resources_dict, note_ids_dict)
+        export_notebook_args(sub_notebook, full_path, resources_dict, note_ids_dict, frontmatter)
 
