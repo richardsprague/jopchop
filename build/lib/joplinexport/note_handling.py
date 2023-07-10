@@ -91,7 +91,7 @@ def notes_date(nname):
         link_anchor = pandocable_filename(nname)
         return f'<div id="{link_anchor}" class="raw"><p class="date-box">{date_str}</p></div>'
     else:
-        return f'<div class="raw"><p class="date-box">{pandocable_filename(nname)}</p></div>'
+        return f'<div class="raw"><p class="date-box">{nname}</p></div>'
 
 
 def format_notes_date(nname):

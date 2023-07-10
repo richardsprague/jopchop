@@ -22,7 +22,7 @@ class TestJoplinExport(unittest.TestCase):
         # count the number of .md and .png files
         md_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".md")])
         png_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".png")])
-        self.assertEqual(md_files, 4)
+        self.assertEqual(md_files, 6)
         self.assertEqual(png_files, 2)
     
     def test_pandocable_filename(self):
@@ -39,6 +39,15 @@ class TestJoplinExport(unittest.TestCase):
         expected = "Daal- Lentils and Spinach"
         self.assertEqual(result, expected, f"Expected {expected}, but got {result}")
 
+    def test_notes_notes(self):
+        notes_files = sorted(note_handling.md_files(self.temp_dir))  # Sort the files
+        self.assertEqual(len(notes_files),2)
+
+        result = note_handling.concat_files(notes_files, before_str="")
+        expected_result = (
+            '<div id="Notes 230710 Monday" class="raw"><p class="date-box">Monday, July 10</p></div>\n\n<div id="Notes 230711 Tuesday" class="raw"><p class="date-box">Tuesday, July 11</p></div>\nSecond Note\n\nwith a link to [Notes 230710 Monday](Notes 230710 Monday.md)'
+        )
+        self.assertEqual(result, expected_result)
 
 
 
