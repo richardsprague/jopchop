@@ -1,3 +1,7 @@
+## Joplin_api.py: a handy set of Joplin API calls
+## https://joplinapp.org/api/references/rest_api/
+
+
 import os
 import requests
 import json

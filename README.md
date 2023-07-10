@@ -41,3 +41,20 @@ Jopchop "MyNotebook"
 
 Everything, including any resources associated with the note, will be downloaded to the directory `downloads`
 
+## joplinexport 
+
+You can also use `joplinexport` as a Python module that you can load into your own packages.  The script `notes_script.py` shows how to do this. 
+
+The key functions are
+
+```py
+notebook_handling.export_notebook(notebook_name) # download a notebook with this name and save it to the downloads folder
+
+from .joplin_api import get_note_resources # use the Joplin API to get resources for a note
+
+
+
+
+```
+
+The core functions are based on the [Joplin REST API](https://joplinapp.org/api/references/rest_api/).
