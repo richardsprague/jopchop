@@ -22,7 +22,7 @@ class TestJoplinExport(unittest.TestCase):
         # count the number of .md and .png files
         md_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".md")])
         png_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".png")])
-        self.assertEqual(md_files, 4)
+        self.assertEqual(md_files, 6)
         self.assertEqual(png_files, 2)
     
     def test_pandocable_filename(self):
