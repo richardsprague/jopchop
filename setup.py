@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='joplinexport',
-    version='0.2.3',
+    version='0.2.5',
     packages=find_packages(),
     install_requires=[
         'altgraph==0.17.3',

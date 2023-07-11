@@ -50,11 +50,17 @@ def get_sub_notebooks(parent_id):
     return sub_notebooks
 
 
+
 def get_notes_from_notebook(notebook_id):
+    """
+    Importantly, the returned result is sorted by title
+    """
     response = requests.get(f'http://localhost:{port}/folders/{notebook_id}/notes?token={token}')
     response.raise_for_status()
     data = response.json()
-    return data['items'] if 'items' in data else []
+    items = data.get('items', [])
+    return sorted(items, key=lambda d: d.get('title', ''))
+
 
 def get_note_content(note_id):
     return json.loads(requests.get(f'http://localhost:{port}/notes/{note_id}?fields=body,title&token={token}').text)

@@ -55,6 +55,17 @@ def save_note_to_file(note_title, note_body, note_tags, note_id, full_path, reso
 
 
 def pandocable_filename(title):
+    """
+    Transforms the title into a sanitized string that can be used as a filename.
+    Non-ASCII characters are converted to closest ASCII equivalents, and any character not 
+    suitable for a filename is replaced with "-".
+
+    Parameters:
+    title (str): The original title string to be sanitized.
+
+    Returns:
+    str: The sanitized filename.
+    """
     ascii_title = unidecode(title)  # Convert non-ASCII characters to closest ASCII equivalents
     sanitized = sanitize_filename(ascii_title, replacement_text="-")
     return sanitized
@@ -63,18 +74,41 @@ def md_files(dir=os.getcwd()):
     return sorted(glob.glob(os.path.join(dir, 'Notes*.md')))
 
 def notes_date(nname):
+    """
+    Extracts a date from the note name and formats it. If the note name does not match the expected pattern, 
+    the original name is returned instead. Also generates an anchor ID based on the note name for linking purposes.
+
+    Parameters:
+    nname (str): The name of the note, expected to contain a date in the format "Notes yymmdd".
+
+    Returns:
+    str: An HTML string containing the formatted date or original name, enclosed in a div with a link anchor.
+    """
     match = re.match(r"Notes (\d{6}) (\w+)", nname)
     if match:
         d = datetime.datetime.strptime(match.group(1), '%y%m%d').date()
         date_str = d.strftime("%A, %B %d")
-        return f'<div class="raw"><p class="date-box">{date_str}</p></div>'
+        link_anchor = pandocable_filename(nname)
+        return f'<div id="{link_anchor}" class="raw"><p class="date-box">{date_str}</p></div>'
     else:
         return f'<div class="raw"><p class="date-box">{nname}</p></div>'
+
 
 def format_notes_date(nname):
     return notes_date(nname)
 
 def concat_files(fnames, before_str="\n", after_str="\n"):
+    """
+    Reads multiple files and concatenates their contents, with a formatted date string from each filename inserted before its contents.
+
+    Parameters:
+    fnames (list): A list of file names to read and concatenate.
+    before_str (str, optional): A string to insert before the date string for each file. Default is "\n".
+    after_str (str, optional): A string to insert after the date string for each file. Default is "\n".
+
+    Returns:
+    str: A string containing the concatenated file contents, with date strings inserted.
+    """
     contents = []
     for fname in fnames:
         with open(fname, "r") as f:

@@ -4,6 +4,7 @@ joplinexport/__init__.py
 joplinexport/joplin_api.py
 joplinexport/note_handling.py
 joplinexport/notebook_handling.py
+joplinexport/notes_make.py
 joplinexport.egg-info/PKG-INFO
 joplinexport.egg-info/SOURCES.txt
 joplinexport.egg-info/dependency_links.txt

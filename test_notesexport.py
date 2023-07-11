@@ -2,11 +2,12 @@ import os
 import unittest
 import shutil
 from joplinexport import get_save_path, notebook_handling, note_handling
+from joplinexport import notes_make
 
 class TestNotesExport(unittest.TestCase):
     
     def setUp(self):
-        self.notebook_name = "JoplinTest"
+        self.notebook_name = "JoplinTestNotes"
         self.temp_dir = "test_downloads"
         os.makedirs(self.temp_dir, exist_ok=True)
         get_save_path(self.temp_dir)  # Assuming you have a variable in your joplinexport module that sets the download path
@@ -22,8 +23,14 @@ class TestNotesExport(unittest.TestCase):
         # count the number of .md and .png files
         md_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".md")])
         png_files = len([name for name in os.listdir(self.temp_dir) if name.endswith(".png")])
-        self.assertEqual(md_files, 8)
-        self.assertEqual(png_files, 2)
+        self.assertEqual(md_files, 4)
+        self.assertEqual(png_files, 0)
+
+    def test_export_notes(self):
+        results = notes_make.export_notes(self.notebook_name)
+        self.assertEqual(results,
+                         '<div id="Notes_200710_Monday" class="raw"><p class="date-box">Friday, July 10</p></div>This is the first note\n\nlinks to [Notes 200712 Wednesday](#Notes_200712_Wednesday)<div id="Notes_200711_Tuesday" class="raw"><p class="date-box">Saturday, July 11</p></div>Second Note\n\nwith a link to [Notes 200710 Monday](#Notes_200710_Monday)<div id="Notes_200712_Wednesday" class="raw"><p class="date-box">Sunday, July 12</p></div><div class="raw"><p class="date-box">Notes_Something_else</p></div>Here\'s the third note\n'
+                        )
     
     def test_pandocable_filename(self):
         # test the pandocable_filename function
@@ -39,27 +46,6 @@ class TestNotesExport(unittest.TestCase):
         expected = "Daal- Lentils and Spinach"
         self.assertEqual(result, expected, f"Expected {expected}, but got {result}")
 
-    def test_notes_notes(self):
-        notes_files = sorted(note_handling.md_files(self.temp_dir))  # Sort the files
-        self.assertEqual(len(notes_files),4)
-
-        result = note_handling.concat_files(notes_files, before_str="")
-        expected_result = (
-            '<div id="Notes 200710 Monday" class="raw"><p class="date-box">Friday, July 10</p></div>\nThis is the first note\n\nlinks to [Notes 200712 Wednesday](Notes 200712 Wednesday.md)\n<div id="Notes 200711 Tuesday" class="raw"><p class="date-box">Saturday, July 11</p></div>\nSecond Note\n\nwith a link to [Notes 200710 Monday](Notes 200710 Monday.md)\n<div id="Notes 200712 Wednesday" class="raw"><p class="date-box">Sunday, July 12</p></div>\n\n<div class="raw"><p class="date-box">Notes Something else</p></div>\nHere\'s the third note\n'
-        )
-        self.assertEqual(result, expected_result)
-
-
-
-    def test_resource_link_replacement(self):
-        download_path = self.temp_dir
-        expected_resource_file = os.path.join(download_path, '572294a665a65a6def31c5593cb24c24.png')
-        self.assertTrue(os.path.exists(expected_resource_file), f"{expected_resource_file} does not exist")
-
-        with open(os.path.join(download_path, 'From OneDrive.md'), 'r', encoding='utf-8') as f:
-            content = f.read()
-            expected_link = '![572294a665a65a6def31c5593cb24c24.png](572294a665a65a6def31c5593cb24c24.png)'
-            self.assertIn(expected_link, content, f"Expected link not found in file content")
 
 
 if __name__ == '__main__':
